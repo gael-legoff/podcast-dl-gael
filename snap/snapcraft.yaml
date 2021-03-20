@@ -8,8 +8,9 @@ grade: stable
 confinement: strict
 
 architectures:
-- build-on: amd64
-  run-on: all
+  - build-on: arm64
+  - build-on: armhf
+  - build-on: amd64
 
 license: "GPL-3.0"
 
