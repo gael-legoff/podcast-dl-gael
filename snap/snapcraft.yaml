@@ -1,5 +1,5 @@
 name: podcast-dl-gael
-version: "1.0"
+version: "1.0-20210326"
 base: core20
 summary: Podcast-dl
 description: Podcast-dl
