@@ -18,13 +18,16 @@ sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.url
 
 * Podcasts are downloaded here once a day at 06:00
 ```
-ls -lh /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
+sudo ls -lh /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
 ```
 
 * Display the last/next time podcast-dl has/will run
 ```
 systemctl list-timers | grep -e NEXT -e podcast-dl-gael
 ```
+
+**2021-04-01**
+* New build to resolve CVE-2021-22876/CVE-2021-22890/USN-4898-1
 
 **2021-03-26**
 * New build to resolve CVE-2021-3449/USN-4891-1
