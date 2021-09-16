@@ -26,6 +26,9 @@ sudo ls -lh /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
 systemctl list-timers | grep -e NEXT -e podcast-dl-gael
 ```
 
+**2021-09-16**
+* New build to resolve CVE-2021-22947/CVE-2021-22945/CVE-2021-22946/USN-5079-1
+
 **2021-08-27**
 * New build to resolve CVE-2021-3634/USN-5053-1
 
