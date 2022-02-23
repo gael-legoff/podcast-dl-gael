@@ -1,8 +1,8 @@
 # [podcast-dl-gael](https://snapcraft.io/podcast-dl-gael)
 
-A simple script I use to download podcasts from YouTube and RSS feeds. It uses [youtube-dl](https://youtube-dl.org/) and a (badly) written bash script. Files are then synchronized to my laptop and mobile using [syncthing](https://snapcraft.io/syncthing-gael).
+A simple script to download podcasts from YouTube and RSS feeds. It uses [youtube-dl](https://youtube-dl.org/) and a (badly) written bash script.
 
-**Caveat:** It suits MY needs and is provided as-is. It's FOSS. Use it for whatever you want.
+**Caveat:** It suits MY needs and is provided as-is. It's FOSS. Use it, change it, do whatever you want with it.
 
 **Usage**
 
@@ -25,6 +25,9 @@ sudo ls -lh /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
 ```
 systemctl list-timers | grep -e NEXT -e podcast-dl-gael
 ```
+
+**2022-02-23**
+* New build to resolve CVE-2022-24407/USN-5301-1
 
 **2021-09-16**
 * New build to resolve CVE-2021-22947/CVE-2021-22945/CVE-2021-22946/USN-5079-1

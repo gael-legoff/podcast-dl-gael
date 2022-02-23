@@ -1,5 +1,5 @@
 name: podcast-dl-gael
-version: "1.0-20210916"
+version: "1.0-20220223"
 base: core20
 summary: A simple script I use to download podcasts from YouTube and RSS feeds
 description: A simple script I use to download podcasts from YouTube and RSS feeds. It uses youtube-dl (https://youtube-dl.org/) and a (badly written) bash script. Files are then synchronized to my laptop and mobile using syncthing (https://snapcraft.io/syncthing-gael).
