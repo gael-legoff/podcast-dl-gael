@@ -1,48 +1,82 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-DOWNLOAD_DIR="$SNAP_COMMON/podcast-dl/podcasts"
-ARCHIVE_FILE="$SNAP_COMMON/podcast-dl/rss-dl.conf.d/rss-dl.download.archive"
+import os
+import sys
+import time
+import feedparser
+import requests
 
-if [ $# -ne 1 ] ; then
-   echo "Fatal error: Missing URL"
-   exit 1
-fi
+SNAP_COMMON = os.getenv('SNAP_COMMON')
+DOWNLOAD_DIR = SNAP_COMMON+"/podcast-dl/podcasts"
+ARCHIVE_FILE = SNAP_COMMON+"/podcast-dl/rss-dl.conf.d/rss-dl.download.archive"
 
-TMP_FILE=`mktemp`
+# Check arguments have been provided
+if len(sys.argv) != 2:
+        print('Usage: rss-dl.module URL')
+        sys.exit(1)
 
-curl $1 --silent --output "$TMP_FILE"
+# Try to open and read the ARCHIVE_FILE. Create the archive set with all the GUIDs.
+try:
+        archive = set(open(ARCHIVE_FILE).read().split())
+except FileNotFoundError:
 
-while read line; do
+        # First run? Create a new archive set to store the GUIDs.
+        archive = set()
 
-   if [[ "$line" == *"<title>"* ]]; then
-      title=`echo "$line" | cut -d '>' -f 2 | cut -d '<' -f 1 | sed -r 's/[/\\]+/_/g'`
-   fi
+# Parse the feed
+rssFeed = feedparser.parse(sys.argv[1])
 
-   if [[ "$line" == *"<pubDate>"* ]]; then
-      pubDate=`echo "$line" | cut -d '>' -f 2 | cut -d '<' -f 1`
-      pubDate=`date --date="$pubDate" '+%Y%m%d'`
-   fi
+# Process the entries
+for entry in rssFeed.entries:
+        guid = entry.id
 
-   if [[ "$line" == *"<enclosure url"* ]]; then
-      url=`echo "$line" | cut -d '"' -f 2`
-   fi
+        # Is it a new GUID (not yet in the archive set)?
+        if guid is not None and guid not in archive:
 
-   if [[ "$line" == *"<guid"* ]]; then
-      guid=`echo "$line" | cut -d '>' -f 2 | cut -d '<' -f 1`
-   fi
+                # Get the published date (defaults to today)
+                if entry.published_parsed is not None:
+                        pubDate = time.strftime('%Y%m%d', entry.published_parsed)
+                else:
+                        pubDate = time.strftime('%Y%m%d')
 
-   if [[ "$line" == *"</item>"* ]]; then
+                # Get the title and replace forbidden characters (defaults to 'Default title')
+                if entry.title is not None:
+                        title = entry.title.replace('/', '_')
+                else:
+                        title = 'Default title'
+		
+                # Find the enclosure's URL
+                url = None
+                for link in entry.links:
+                        if link.rel == 'enclosure':
+                                url = link.href
 
-      if ! grep "$guid" "$ARCHIVE_FILE" > /dev/null ; then
+                if url is not None:
+                        print('Downloading...')
+                        print('GUID: '+guid)
+                        print('pubDate: '+pubDate)
+                        print('title: '+title)
+                        print('URL: '+url)
+                        print()
 
-         echo "Downloading $title..."
+                        # Download the file in 10MB chunks
+                        try:
+                                r = requests.get(url, timeout=30, stream=True)
 
-         if curl "$url" --silent --output "$DOWNLOAD_DIR/$pubDate-$title" ; then
-            echo "$guid" >> "$ARCHIVE_FILE"
-         fi
-      fi
-   fi
+                                with open(DOWNLOAD_DIR+'/'+pubDate+'-'+title, 'wb') as fd:
+                                        for chunk in r.iter_content(chunk_size=10*1024*1024):
+                                                fd.write(chunk)
 
-done < "$TMP_FILE"
+                        except requests.exceptions.RequestException as re:
+                                print(re)
 
-rm "$TMP_FILE"
+                        # Add the GUID to the archive set
+                        archive.add(guid)
+
+# Write the archive set to file
+with open(ARCHIVE_FILE, 'w') as filehandle:
+    for setitem in archive:
+        filehandle.write('%s\n' % setitem)
+
+sys.exit(0)
+

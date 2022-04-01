@@ -1,8 +1,11 @@
 name: podcast-dl-gael
-version: "1.0-20220223"
+version: "2.0"
 base: core20
-summary: A simple script I use to download podcasts from YouTube and RSS feeds
-description: A simple script I use to download podcasts from YouTube and RSS feeds. It uses youtube-dl (https://youtube-dl.org/) and a (badly written) bash script. Files are then synchronized to my laptop and mobile using syncthing (https://snapcraft.io/syncthing-gael).
+summary: A simple script to download podcasts from YouTube or RSS feeds
+description: |
+  A simple script to download videos/podcasts from YouTube or RSS feeds.
+  Behind the scene it uses [youtube-dl](https://youtube-dl.org/) and Python's feedparser.
+  New files are downloaded everyday at 06:00.
 
 grade: stable
 confinement: strict
@@ -17,6 +20,8 @@ license: "GPL-3.0"
 apps:
   podcast-dl:
     command: podcast-dl/podcast-dl.sh
+    environment:
+      PYTHONPATH: $SNAP/lib/python3.8/site-packages
     daemon: simple
     timer: 06:00
     plugs:
@@ -27,8 +32,13 @@ parts:
     plugin: dump
     source: snap/local/
 
-  youtube-dl-env:
+  python-env:
     plugin: python
-    python-packages: []
+    python-packages:
+      - requests
+      - feedparser
+
+  utils:
+    plugin: nil
     stage-packages:
       - curl

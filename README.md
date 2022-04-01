@@ -1,30 +1,40 @@
 # [podcast-dl-gael](https://snapcraft.io/podcast-dl-gael)
 
-A simple script to download podcasts from YouTube and RSS feeds. It uses [youtube-dl](https://youtube-dl.org/) and a (badly) written bash script.
+A simple script to download videos/podcasts from YouTube or RSS feeds.
 
-**Caveat:** It suits MY needs and is provided as-is. It's FOSS. Use it, change it, do whatever you want with it.
+Behind the scene it uses [youtube-dl](https://youtube-dl.org/) and Python's feedparser.
 
-**Usage**
+### YouTube videos (or any other services supported by youtube-dl)
 
-* List your YouTube video or playlist URLs here (one Youtube URL per line)
+* List your YouTube video or playlist URLs here (one URL per line)
 ```
 sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl.url
 ```
+
+* Configure youtube-dl here
+```
+sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl.conf
+```
+
+### RSS feeds
 
 * List your RSS feeds here (one RSS feed per line)
 ```
 sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.url
 ```
 
-* Podcasts are downloaded here once a day at 06:00
+### Target directory
+
+* New files are downloaded here everyday at 06:00
 ```
-sudo ls -lh /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
+ls -l /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
 ```
 
-* Display the last/next time podcast-dl has/will run
-```
-systemctl list-timers | grep -e NEXT -e podcast-dl-gael
-```
+### Revisions
+
+**2022-04-01**
+* v2.0 available on amd64, arm64 & armhf
+* Switched to Python's feedparser for reliability
 
 **2022-02-23**
 * New build to resolve CVE-2022-24407/USN-5301-1
@@ -49,3 +59,4 @@ systemctl list-timers | grep -e NEXT -e podcast-dl-gael
 
 **2021-03-20**
 * Initial release
+
