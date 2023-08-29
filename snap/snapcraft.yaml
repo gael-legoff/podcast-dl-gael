@@ -1,6 +1,6 @@
 name: podcast-dl-gael
-version: "2.0-20220902"
-base: core20
+version: "3.0"
+base: core22
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
   A simple script to download videos/podcasts from YouTube or RSS feeds.
@@ -20,25 +20,35 @@ license: "GPL-3.0"
 apps:
   podcast-dl:
     command: podcast-dl/podcast-dl.sh
-    environment:
-      PYTHONPATH: $SNAP/lib/python3.8/site-packages
     daemon: simple
     timer: 06:00
     plugs:
       - network
+      - home
+
+  download-now:
+    command: podcast-dl/podcast-dl.sh
+    plugs:
+      - network
+      - home
+
+  rss-skip-download:
+    command: podcast-dl/rss-skip-download.sh
+    plugs:
+      - network
+      - home
+
+  youtube-dl-skip-download:
+    command: podcast-dl/youtube-dl-skip-download.sh
+    plugs:
+      - network
+      - home
 
 parts:
   podcast-dl:
     plugin: dump
     source: snap/local/
-
-  python-env:
-    plugin: python
-    python-packages:
-      - requests
-      - feedparser
-
-  utils:
-    plugin: nil
     stage-packages:
       - curl
+      - python3-requests
+      - python3-feedparser

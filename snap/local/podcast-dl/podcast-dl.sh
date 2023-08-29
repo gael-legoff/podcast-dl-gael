@@ -1,14 +1,23 @@
 #!/bin/bash
 
+RSS_DL_URL=$SNAP_COMMON/podcast-dl/rss-dl.conf.d/rss-dl.url
+YOUTUBE_DL_URL=$SNAP_COMMON/podcast-dl/youtube-dl.conf.d/youtube-dl.url
+
 ### RSS downloads ###
 
-for URL in $(grep '^[[:blank:]]*[^[:blank:]#;]' $SNAP_COMMON/podcast-dl/rss-dl.conf.d/rss-dl.url)
-do
-   $SNAP/podcast-dl/rss-dl.conf.d/rss-dl.module $URL
-done
+if [[ -f "$RSS_DL_URL" ]]; then
+
+   grep -v '^[[:blank:]]*[^[:blank:]#;]' < "$RSS_DL_URL" | while IFS= read -r URL
+   do
+      "$SNAP"/podcast-dl/rss-dl.conf.d/rss-dl.module DOWNLOAD "$URL"
+   done
+fi
 
 ### YouTube downloads ###
 
-$SNAP/podcast-dl/youtube-dl.conf.d/youtube-dl.module
+if [[ -f "$YOUTUBE_DL_URL" ]]; then
+
+   "$SNAP"/podcast-dl/youtube-dl.conf.d/youtube-dl.module
+fi
 
 exit 0

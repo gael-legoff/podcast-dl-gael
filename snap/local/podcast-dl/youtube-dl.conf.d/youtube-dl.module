@@ -2,9 +2,9 @@
 
 ### YouTube downloads ###
 
-# Update youtube-dl to the latest version
+# MOVED TO YT-DLP FOLLOWING ISSUE #31530 - https://github.com/ytdl-org/youtube-dl/issues/31530
 
-curl --silent --location https://yt-dl.org/downloads/latest/youtube-dl --output $SNAP_COMMON/podcast-dl/bin/youtube-dl
+curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2023.07.06/yt-dlp --output $SNAP_COMMON/podcast-dl/bin/youtube-dl
 chmod a+rx $SNAP_COMMON/podcast-dl/bin/youtube-dl
 
 # --config-location PATH    Location of the configuration file; either the path to the config or its containing directory.

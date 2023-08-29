@@ -7,12 +7,31 @@ import feedparser
 import requests
 
 SNAP_COMMON = os.getenv('SNAP_COMMON')
-DOWNLOAD_DIR = SNAP_COMMON+"/podcast-dl/podcasts"
+DEF_DOWNLOAD_DIR = SNAP_COMMON+"/podcast-dl/podcasts"
 ARCHIVE_FILE = SNAP_COMMON+"/podcast-dl/rss-dl.conf.d/rss-dl.download.archive"
 
-# Check arguments have been provided
-if len(sys.argv) != 2:
-        print('Usage: rss-dl.module URL')
+# Check arguments
+if len(sys.argv) == 2:
+        
+        # No path provided? Use the default path
+        DOWNLOAD_DIR = DEF_DOWNLOAD_DIR
+        
+elif len(sys.argv) == 3:
+
+        # Sanitize the user-provided path
+        customDirectory = os.path.abspath(os.path.expandvars(sys.argv[2]))
+        DOWNLOAD_DIR = customDirectory
+        
+        # Check if the provided path is an existing directory, otherwise create it
+        if !os.path.exists(customDirectory) or !os.path.isdir(customDirectory):
+                try:
+                        os.makedirs(customDirectory)
+                except OSError as e:
+                        print(e)
+                        sys.exit(1)
+
+else:
+        print('Usage: rss-dl.module URL [PATH]')
         sys.exit(1)
 
 # Try to open and read the ARCHIVE_FILE. Create the archive set with all the GUIDs.
@@ -79,4 +98,3 @@ with open(ARCHIVE_FILE, 'w') as filehandle:
         filehandle.write('%s\n' % setitem)
 
 sys.exit(0)
-
