@@ -23,7 +23,7 @@ elif len(sys.argv) == 3:
         DOWNLOAD_DIR = customDirectory
         
         # Check if the provided path is an existing directory, otherwise create it
-        if !os.path.exists(customDirectory) or !os.path.isdir(customDirectory):
+        if not os.path.exists(customDirectory) or not os.path.isdir(customDirectory):
                 try:
                         os.makedirs(customDirectory)
                 except OSError as e:

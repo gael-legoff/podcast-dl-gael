@@ -4,10 +4,20 @@
 
 # MOVED TO YT-DLP FOLLOWING ISSUE #31530 - https://github.com/ytdl-org/youtube-dl/issues/31530
 
-curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2023.07.06/yt-dlp --output $SNAP_COMMON/podcast-dl/bin/youtube-dl
-chmod a+rx $SNAP_COMMON/podcast-dl/bin/youtube-dl
+YOUTUBE_DL=$SNAP_COMMON/podcast-dl/bin/youtube-dl
+
+# Download or update yt-dlp to the latest version
+
+if [[ ! -f "$YOUTUBE_DL" ]]; then
+
+   curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2023.07.06/yt-dlp --output "$YOUTUBE_DL"
+   chmod a+rx "$YOUTUBE_DL"
+else
+
+   "$YOUTUBE_DL" --update
+fi
 
 # --config-location PATH    Location of the configuration file; either the path to the config or its containing directory.
 # --dateafter DATE          Download only videos uploaded on or after this date (i.e. inclusive)
 
-$SNAP_COMMON/podcast-dl/bin/youtube-dl --config-location $SNAP_COMMON/podcast-dl/youtube-dl.conf.d/youtube-dl.conf
+"$YOUTUBE_DL" --config-location $SNAP_COMMON/podcast-dl/youtube-dl.conf.d/youtube-dl.conf

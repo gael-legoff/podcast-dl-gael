@@ -4,8 +4,8 @@ base: core22
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
   A simple script to download videos/podcasts from YouTube or RSS feeds.
-  Behind the scene it uses [youtube-dl](https://youtube-dl.org/) and Python's feedparser.
-  New files are downloaded everyday at 06:00.
+  Behind the scene it uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and Python's feedparser.
+  By default, new files are downloaded everyday at 06:00.
 
 grade: stable
 confinement: strict
@@ -36,13 +36,11 @@ apps:
     command: podcast-dl/rss-skip-download.sh
     plugs:
       - network
-      - home
 
   youtube-dl-skip-download:
     command: podcast-dl/youtube-dl-skip-download.sh
     plugs:
       - network
-      - home
 
 parts:
   podcast-dl:
