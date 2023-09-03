@@ -20,6 +20,8 @@ license: "GPL-3.0"
 apps:
   podcast-dl:
     command: podcast-dl/podcast-dl.sh
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
     daemon: simple
     timer: 06:00
     plugs:
@@ -28,17 +30,23 @@ apps:
 
   download-now:
     command: podcast-dl/podcast-dl.sh
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
     plugs:
       - network
       - home
 
   rss-skip-download:
     command: podcast-dl/rss-skip-download.sh
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
     plugs:
       - network
 
   youtube-dl-skip-download:
     command: podcast-dl/youtube-dl-skip-download.sh
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
     plugs:
       - network
 

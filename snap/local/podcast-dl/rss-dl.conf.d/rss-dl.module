@@ -11,15 +11,15 @@ DEF_DOWNLOAD_DIR = SNAP_COMMON+"/podcast-dl/podcasts"
 ARCHIVE_FILE = SNAP_COMMON+"/podcast-dl/rss-dl.conf.d/rss-dl.download.archive"
 
 # Check arguments
-if len(sys.argv) == 2:
+if len(sys.argv) == 3:
         
         # No path provided? Use the default path
         DOWNLOAD_DIR = DEF_DOWNLOAD_DIR
         
-elif len(sys.argv) == 3:
+elif len(sys.argv) == 4:
 
         # Sanitize the user-provided path
-        customDirectory = os.path.abspath(os.path.expandvars(sys.argv[2]))
+        customDirectory = os.path.abspath(os.path.expandvars(sys.argv[3]))
         DOWNLOAD_DIR = customDirectory
         
         # Check if the provided path is an existing directory, otherwise create it
@@ -31,7 +31,7 @@ elif len(sys.argv) == 3:
                         sys.exit(1)
 
 else:
-        print('Usage: rss-dl.module URL [PATH]')
+        print('Usage: rss-dl.module DOWNLOAD|SKIP URL [PATH]')
         sys.exit(1)
 
 # Try to open and read the ARCHIVE_FILE. Create the archive set with all the GUIDs.
@@ -42,8 +42,11 @@ except FileNotFoundError:
         # First run? Create a new archive set to store the GUIDs.
         archive = set()
 
+# Retrieve the mode DOWNLOAD or SKIP
+mode = sys.argv[1]
+
 # Parse the feed
-rssFeed = feedparser.parse(sys.argv[1])
+rssFeed = feedparser.parse(sys.argv[2])
 
 # Process the entries
 for entry in rssFeed.entries:
@@ -71,23 +74,24 @@ for entry in rssFeed.entries:
                                 url = link.href
 
                 if url is not None:
-                        print('Downloading...')
+                        print('Mode: '+mode)
                         print('GUID: '+guid)
                         print('pubDate: '+pubDate)
                         print('title: '+title)
                         print('URL: '+url)
                         print()
 
-                        # Download the file in 10MB chunks
-                        try:
-                                r = requests.get(url, timeout=30, stream=True)
+                        if mode == "DOWNLOAD":
+				# Download the file in 10MB chunks
+                        	try:
+                                	r = requests.get(url, timeout=30, stream=True)
 
-                                with open(DOWNLOAD_DIR+'/'+pubDate+'-'+title, 'wb') as fd:
-                                        for chunk in r.iter_content(chunk_size=10*1024*1024):
-                                                fd.write(chunk)
+                                	with open(DOWNLOAD_DIR+'/'+pubDate+'-'+title, 'wb') as fd:
+                                        	for chunk in r.iter_content(chunk_size=10*1024*1024):
+                                                	fd.write(chunk)
 
-                        except requests.exceptions.RequestException as re:
-                                print(re)
+                        	except requests.exceptions.RequestException as re:
+                                	print(re)
 
                         # Add the GUID to the archive set
                         archive.add(guid)

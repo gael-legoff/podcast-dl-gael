@@ -14,7 +14,7 @@ if [[ ! -f "$YOUTUBE_DL" ]]; then
    chmod a+rx "$YOUTUBE_DL"
 else
 
-   "$YOUTUBE_DL" --update
+   "$YOUTUBE_DL" --update-to nightly
 fi
 
 # --config-location PATH    Location of the configuration file; either the path to the config or its containing directory.

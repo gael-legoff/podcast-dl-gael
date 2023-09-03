@@ -16,7 +16,7 @@ if [[ ! -f "$YOUTUBE_DL" ]]; then
    chmod a+rx "$YOUTUBE_DL"
 else
 
-   "$YOUTUBE_DL" --update
+   "$YOUTUBE_DL" --update-to nightly
 fi
 
 # Get Youtube video IDs

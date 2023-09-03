@@ -7,9 +7,9 @@ YOUTUBE_DL_URL=$SNAP_COMMON/podcast-dl/youtube-dl.conf.d/youtube-dl.url
 
 if [[ -f "$RSS_DL_URL" ]]; then
 
-   grep -v '^[[:blank:]]*[^[:blank:]#;]' < "$RSS_DL_URL" | while IFS= read -r URL
+   grep '^[[:blank:]]*[^[:blank:]#;]' < "$RSS_DL_URL" | while IFS= read -r ARGS
    do
-      "$SNAP"/podcast-dl/rss-dl.conf.d/rss-dl.module DOWNLOAD "$URL"
+      "$SNAP"/podcast-dl/rss-dl.conf.d/rss-dl.module DOWNLOAD $ARGS
    done
 fi
 
