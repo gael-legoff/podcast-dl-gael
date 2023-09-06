@@ -4,11 +4,23 @@ A simple script to download videos/podcasts from YouTube or RSS feeds.
 
 Behind the scene it uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and Python's feedparser.
 
+
+### Connect the home interface to download files to the home directory (optional)
+
+sudo snap connect podcast-dl-gael:home
+
+
 ### YouTube videos (or any other services supported by yt-dlp)
 
 * List your YouTube video or playlist URLs here (one URL per line)
 ```
 sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl.url
+
+# Jay Swanson
+https://www.youtube.com/user/Cadelfwch/videos
+
+# SmarterEveryDay
+https://www.youtube.com/user/destinws2/videos
 ```
 
 * Configure yt-dlp here
@@ -16,21 +28,70 @@ sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl
 sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl.conf
 ```
 
+
 ### RSS feeds
 
 * List your RSS feeds here (one RSS feed per line)
 ```
 sudo vi /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.url
+
+# Format: URL [DIRECTORY]
+# The optional DIRECTORY allows you to the save your files in a specific directory
+
+# Late Night Linux - All Episodes Feed
+https://latenightlinux.com/feeds/ /root/storage/podcasts/LateNightLinux
 ```
 
-### Target directory
 
-* New files are downloaded here everyday at 06:00
+### Scheduled downloads
+
+* By default, new files are downloaded here everyday at 6am
 ```
-ls -l /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
+ls -lh /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/
 ```
+
+
+### Manually scheduling or downloading files
+
+To download files at a different time, use a systemd timer (or equivalent) to run this command
+
+```
+sudo podcast-dl-gael.download-now
+```
+
+This command can also be run from the command line to download files manually.
+
+
+### Skip YouTube videos
+
+To mark videos as already downloaded, run the youtube-dl-skip-download command.
+Depending on the number of videos, this could take a long time.
+
+If you don't want to watch (again) the 1300+ first vlogs of Jay Swanson but would like to download the future ones, run this command 
+
+```
+sudo podcast-dl-gael.youtube-dl-skip-download https://www.youtube.com/user/Cadelfwch/videos
+```
+
+
+### Skip RSS feeds
+
+To mark RSS feeds as already downloaded, run the rss-skip-download command.
+
+If you don't want to listen (again) to all the Late Night Linux shows but would like to download the future ones, run this command 
+
+```
+sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
+```
+
 
 ### Revisions
+
+**2023-09-06**
+* v3.0 available on amd64, arm64 & armhf
+* yt-dlp updated to nightly to workaround [Unable to extract initial state](https://github.com/yt-dlp/yt-dlp/issues/7624)
+* New commands (youtube-dl-skip-download & rss-skip-download) to skip videos or RSS feeds
+* Manual scheduling of downloads using the download-now command
 
 **2023-08-16**
 * New build to resolve CVE-2022-48281/CVE-2023-2908/CVE-2023-3316/CVE-2023-3618/CVE-2023-25433/CVE-2023-26965/CVE-2023-26966/CVE-2023-38288/CVE-2023-38289/USN-6290-1
