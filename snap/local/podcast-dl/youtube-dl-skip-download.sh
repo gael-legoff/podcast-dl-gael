@@ -12,12 +12,11 @@ fi
 
 if [[ ! -f "$YOUTUBE_DL" ]]; then
 
-#   curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2023.07.06/yt-dlp --output "$YOUTUBE_DL"
-   curl --silent --location https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/download/2023.09.02.144028/yt-dlp --output "$YOUTUBE_DL"
+   curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2023.10.07/yt-dlp --output "$YOUTUBE_DL"
    chmod a+rx "$YOUTUBE_DL"
 else
 
-   "$YOUTUBE_DL" --update-to nightly
+   "$YOUTUBE_DL" --update-to stable
 fi
 
 # Get Youtube video IDs

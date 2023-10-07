@@ -6,8 +6,9 @@ Behind the scene it uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and Python's
 
 
 ### Connect the home interface to download files to the home directory (optional)
-
+```
 sudo snap connect podcast-dl-gael:home
+```
 
 
 ### YouTube videos (or any other services supported by yt-dlp)
@@ -86,6 +87,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 
 ### Revisions
+
+**2023-10-07**
+* Back to stable releases of yt-dlp
 
 **2023-09-06**
 * v3.0 available on amd64, arm64 & armhf
