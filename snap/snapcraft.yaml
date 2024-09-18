@@ -1,5 +1,5 @@
 name: podcast-dl-gael
-version: "v3.0-20240917"
+version: "v3.0-ffmpeg"
 base: core22
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
@@ -58,3 +58,11 @@ parts:
       - curl
       - python3-requests
       - python3-feedparser
+
+  ffmpeg:
+    plugin: nil
+    stage-packages:
+      - ffmpeg
+      - libglu1-mesa
+      - freeglut3
+      - libpulse0

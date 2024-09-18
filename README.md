@@ -88,6 +88,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2024-09-18**
+* Bundle ffmpeg, it was previously dropped by mistake
+
 **2024-09-17**
 * New build to resolve CVE-2024-8096/USN-7012-1
 
