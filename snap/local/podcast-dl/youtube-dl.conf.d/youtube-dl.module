@@ -10,14 +10,12 @@ YOUTUBE_DL=$SNAP_COMMON/podcast-dl/bin/youtube-dl
 
 if [[ ! -f "$YOUTUBE_DL" ]]; then
 
-   curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2023.10.07/yt-dlp --output "$YOUTUBE_DL"
+   curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2024.08.06/yt-dlp --output "$YOUTUBE_DL"
    chmod a+rx "$YOUTUBE_DL"
-else
-
-   "$YOUTUBE_DL" --update-to stable
 fi
 
+"$YOUTUBE_DL" --update-to stable
+
 # --config-location PATH    Location of the configuration file; either the path to the config or its containing directory.
-# --dateafter DATE          Download only videos uploaded on or after this date (i.e. inclusive)
 
 "$YOUTUBE_DL" --config-location $SNAP_COMMON/podcast-dl/youtube-dl.conf.d/youtube-dl.conf
