@@ -1,5 +1,5 @@
 name: podcast-dl-gael
-version: "v3.0-ffmpeg"
+version: "v3.0-fixes"
 base: core22
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
