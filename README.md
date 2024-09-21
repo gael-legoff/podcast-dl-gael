@@ -88,7 +88,7 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
-**2024-09-18**
+**2024-09-21**
 * Bundle ffmpeg, it was previously dropped by mistake
 
 **2024-09-17**
