@@ -84,7 +84,8 @@ for entry in rssFeed.entries:
                         if mode == "DOWNLOAD":
 				# Download the file in 10MB chunks
                         	try:
-                                	r = requests.get(url, timeout=30, stream=True)
+                                	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'}
+                                	r = requests.get(url, timeout=30, stream=True, headers=headers)
 
                                 	with open(DOWNLOAD_DIR+'/'+pubDate+'-'+title, 'wb') as fd:
                                         	for chunk in r.iter_content(chunk_size=10*1024*1024):

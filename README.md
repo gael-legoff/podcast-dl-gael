@@ -88,6 +88,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2024-10-05**
+* Add a fake user agent to workaround annoying podcast hosting sites (I'm looking at you podcastics.com)
+
 **2024-09-21**
 * Bundle ffmpeg, it was previously dropped by mistake
 * Fix defaults for yt-dlp
