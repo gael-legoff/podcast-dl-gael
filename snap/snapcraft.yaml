@@ -1,6 +1,6 @@
 name: podcast-dl-gael
-version: "v3.1"
-base: core22
+version: "v3.1-core24"
+base: core24
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
   A simple script to download videos/podcasts from YouTube or RSS feeds.
@@ -10,10 +10,10 @@ description: |
 grade: stable
 confinement: strict
 
-architectures:
-  - build-on: arm64
-  - build-on: armhf
-  - build-on: amd64
+platforms:
+  arm64:
+  armhf:
+  amd64:
 
 license: "GPL-3.0"
 
@@ -66,5 +66,5 @@ parts:
     stage-packages:
       - ffmpeg
       - libglu1-mesa
-      - freeglut3
+      - freeglut3-dev
       - libpulse0

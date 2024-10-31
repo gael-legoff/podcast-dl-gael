@@ -88,6 +88,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2024-10-31**
+* podcast-dl-gael will now use core24 as most users are on Ubuntu 24.04
+
 **2024-10-05**
 * Add a fake user agent to workaround annoying podcast hosting sites (I'm looking at you podcastics.com)
 
