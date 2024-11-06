@@ -88,7 +88,7 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
-**2024-10-31**
+**2024-11-06**
 * podcast-dl-gael will now use core24 as most users are on Ubuntu 24.04
 
 **2024-10-05**
