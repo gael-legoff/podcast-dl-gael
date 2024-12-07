@@ -88,6 +88,11 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2024-12-07**
+* Properly convert restricted Windows characters in filenames with their unicode equivalents
+* It will also help on Android when the exposed filesystem is FAT-like
+* Update default yt-dlp to the latest version
+
 **2024-11-06**
 * podcast-dl-gael will now use core24 as most users are on Ubuntu 24.04
 

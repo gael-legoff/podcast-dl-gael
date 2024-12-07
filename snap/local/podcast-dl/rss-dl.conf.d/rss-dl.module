@@ -63,7 +63,7 @@ for entry in rssFeed.entries:
 
                 # Get the title and replace forbidden characters (defaults to 'Default title')
                 if entry.title is not None:
-                        title = entry.title.replace('/', '_')
+                        title = entry.title.replace('<', '﹤').replace('>', '﹥').replace(':', 'ː').replace('"', '“').replace('/', '⁄').replace('\\', '∖').replace('|', '⼁').replace('?', '？').replace('*', '﹡')
                 else:
                         title = 'Default title'
 		
