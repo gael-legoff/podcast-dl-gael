@@ -61,12 +61,16 @@ for entry in rssFeed.entries:
                 else:
                         pubDate = time.strftime('%Y%m%d')
 
-                # Get the title and replace forbidden characters (defaults to 'Default title')
-                if entry.title is not None:
-                        title = entry.title.replace('<', '﹤').replace('>', '﹥').replace(':', 'ː').replace('"', '“').replace('/', '⁄').replace('\\', '∖').replace('|', '⼁').replace('?', '？').replace('*', '﹡')
-                else:
-                        title = 'Default title'
-		
+                # Get the title and convert restricted UNIX and Windows characters in filenames with their unicode equivalents
+                title = entry.title
+
+                if title is not None:
+                        title = title.replace('<', '﹤').replace('>', '﹥').replace(':', 'ː').replace('"', '“').replace('/', '⁄').replace('\\', '∖').replace('|', '⼁').replace('?', '？').replace('*', '﹡').rstrip(' .')
+
+                # If title is None or empty set a default title
+                if title is None or title == '':
+                        title = 'Default title_' + str(int(time.time()))
+
                 # Find the enclosure's URL
                 url = None
                 for link in entry.links:

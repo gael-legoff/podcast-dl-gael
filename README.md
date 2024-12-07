@@ -89,7 +89,7 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 ### Revisions
 
 **2024-12-07**
-* Properly convert restricted Windows characters in filenames with their unicode equivalents
+* Properly convert restricted UNIX and Windows characters in filenames with their unicode equivalents
 * It will also help on Android when the exposed filesystem is FAT-like
 * Update default yt-dlp to the latest version
 
