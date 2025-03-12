@@ -88,6 +88,10 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2025-03-12**
+
+* New build to resolve CVE-2024-11053/CVE-2024-56826/CVE-2024-56827/CVE-2024-34459/CVE-2022-49043/CVE-2024-50612/CVE-2025-24928/CVE-2025-27113/CVE-2024-34459/CVE-2024-56171/USN-7162-1/USN-7223-1/USN-7240-1/USN-7267-2/USN-7302-1
+
 **2024-12-07**
 * Properly convert restricted UNIX and Windows characters in filenames with their unicode equivalents
 * It will also help on Android when the exposed filesystem is FAT-like
