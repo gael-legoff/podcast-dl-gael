@@ -12,35 +12,35 @@ ARCHIVE_FILE = SNAP_COMMON+"/podcast-dl/rss-dl.conf.d/rss-dl.download.archive"
 
 # Check arguments
 if len(sys.argv) == 3:
-        
-        # No path provided? Use the default path
-        DOWNLOAD_DIR = DEF_DOWNLOAD_DIR
-        
+    
+    # No path provided? Use the default path
+    DOWNLOAD_DIR = DEF_DOWNLOAD_DIR
+    
 elif len(sys.argv) == 4:
-
-        # Sanitize the user-provided path
-        customDirectory = os.path.abspath(os.path.expandvars(sys.argv[3]))
-        DOWNLOAD_DIR = customDirectory
-        
-        # Check if the provided path is an existing directory, otherwise create it
-        if not os.path.exists(customDirectory) or not os.path.isdir(customDirectory):
-                try:
-                        os.makedirs(customDirectory)
-                except OSError as e:
-                        print(e)
-                        sys.exit(1)
+    
+    # Sanitize the user-provided path
+    customDirectory = os.path.abspath(os.path.expandvars(sys.argv[3]))
+    DOWNLOAD_DIR = customDirectory
+    
+    # Check if the provided path is an existing directory, otherwise create it
+    if not os.path.exists(customDirectory) or not os.path.isdir(customDirectory):
+        try:
+            os.makedirs(customDirectory)
+        except OSError as e:
+            print(e)
+            sys.exit(1)
 
 else:
-        print('Usage: rss-dl.module DOWNLOAD|SKIP URL [PATH]')
-        sys.exit(1)
+    print('Usage: rss-dl.module DOWNLOAD|SKIP URL [PATH]')
+    sys.exit(1)
 
 # Try to open and read the ARCHIVE_FILE. Create the archive set with all the GUIDs.
 try:
-        archive = set(open(ARCHIVE_FILE).read().split())
+    archive = set(open(ARCHIVE_FILE).read().split())
 except FileNotFoundError:
-
-        # First run? Create a new archive set to store the GUIDs.
-        archive = set()
+    
+    # First run? Create a new archive set to store the GUIDs.
+    archive = set()
 
 # Retrieve the mode DOWNLOAD or SKIP
 mode = sys.argv[1]
@@ -50,56 +50,56 @@ rssFeed = feedparser.parse(sys.argv[2])
 
 # Process the entries
 for entry in rssFeed.entries:
-        guid = entry.id
-
-        # Is it a new GUID (not yet in the archive set)?
-        if guid is not None and guid not in archive:
-
-                # Get the published date (defaults to today)
-                if entry.published_parsed is not None:
-                        pubDate = time.strftime('%Y%m%d', entry.published_parsed)
-                else:
-                        pubDate = time.strftime('%Y%m%d')
-
-                # Get the title and convert restricted UNIX and Windows characters in filenames with their unicode equivalents
-                title = entry.title
-
-                if title is not None:
-                        title = title.replace('<', '﹤').replace('>', '﹥').replace(':', 'ː').replace('"', '“').replace('/', '⁄').replace('\\', '∖').replace('|', '⼁').replace('?', '？').replace('*', '﹡').rstrip(' .')
-
-                # If title is None or empty set a default title
-                if title is None or title == '':
-                        title = 'Default title_' + str(int(time.time()))
-
-                # Find the enclosure's URL
-                url = None
-                for link in entry.links:
-                        if link.rel == 'enclosure':
-                                url = link.href
-
-                if url is not None:
-                        print('Mode: '+mode)
-                        print('GUID: '+guid)
-                        print('pubDate: '+pubDate)
-                        print('title: '+title)
-                        print('URL: '+url)
-                        print()
-
-                        if mode == "DOWNLOAD":
-				# Download the file in 10MB chunks
-                        	try:
-                                	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'}
-                                	r = requests.get(url, timeout=30, stream=True, headers=headers)
-
-                                	with open(DOWNLOAD_DIR+'/'+pubDate+'-'+title, 'wb') as fd:
-                                        	for chunk in r.iter_content(chunk_size=10*1024*1024):
-                                                	fd.write(chunk)
-
-                        	except requests.exceptions.RequestException as re:
-                                	print(re)
-
-                        # Add the GUID to the archive set
-                        archive.add(guid)
+    guid = entry.id
+    
+    # Is it a new GUID (not yet in the archive set)?
+    if guid is not None and guid not in archive:
+        
+        # Get the published date (defaults to today)
+        if entry.published_parsed is not None:
+            pubDate = time.strftime('%Y%m%d', entry.published_parsed)
+        else:
+            pubDate = time.strftime('%Y%m%d')
+            
+        # Get the title and convert restricted UNIX and Windows characters in filenames with their unicode equivalents
+        title = entry.title
+        
+        if title is not None:
+            title = title.replace('<', '﹤').replace('>', '﹥').replace(':', 'ː').replace('"', '“').replace('/', '⁄').replace('\\', '∖').replace('|', '⼁').replace('?', '？').replace('*', '﹡').rstrip(' .')
+        
+        # If title is None or empty set a default title
+        if title is None or title == '':
+            title = 'Default title_' + str(int(time.time()))
+        
+        # Find the enclosure's URL
+        url = None
+        for link in entry.links:
+            if link.rel == 'enclosure':
+                url = link.href
+        
+        if url is not None:
+            print('Mode: '+mode)
+            print('GUID: '+guid)
+            print('pubDate: '+pubDate)
+            print('title: '+title)
+            print('URL: '+url)
+            print()
+            
+            if mode == "DOWNLOAD":
+                # Download the file in 10MB chunks
+                try:
+                    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'}
+                    r = requests.get(url, timeout=30, stream=True, headers=headers)
+                    
+                    with open(DOWNLOAD_DIR+'/'+pubDate+'-'+title, 'wb') as fd:
+                        for chunk in r.iter_content(chunk_size=10*1024*1024):
+                            fd.write(chunk)
+                    
+                except requests.exceptions.RequestException as re:
+                    print(re)
+                
+            # Add the GUID to the archive set
+            archive.add(guid)
 
 # Write the archive set to file
 with open(ARCHIVE_FILE, 'w') as filehandle:
