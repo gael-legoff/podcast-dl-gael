@@ -61,4 +61,3 @@ sed -i '1d' /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.dow
 sudo podcast-dl-gael.download-now
 
 sudo ls -lRh /var/snap/podcast-dl-gael/common/podcast-dl/podcasts
-

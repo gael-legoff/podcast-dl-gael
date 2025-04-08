@@ -22,14 +22,6 @@ elif len(sys.argv) == 4:
     customDirectory = os.path.abspath(os.path.expandvars(sys.argv[3]))
     DOWNLOAD_DIR = customDirectory
     
-    # Check if the provided path is an existing directory, otherwise create it
-    if not os.path.exists(customDirectory) or not os.path.isdir(customDirectory):
-        try:
-            os.makedirs(customDirectory)
-        except OSError as e:
-            print(e)
-            sys.exit(1)
-
 else:
     print('Usage: rss-dl.module DOWNLOAD|SKIP URL [PATH]')
     sys.exit(1)
@@ -86,6 +78,14 @@ for entry in rssFeed.entries:
             print()
             
             if mode == "DOWNLOAD":
+                # Check if the destination path is an existing directory, otherwise create it
+                if not os.path.exists(DOWNLOAD_DIR) or not os.path.isdir(DOWNLOAD_DIR):
+                    try:
+                        os.makedirs(DOWNLOAD_DIR)
+                    except OSError as e:
+                        print(e)
+                        sys.exit(1)
+
                 # Download the file in 10MB chunks
                 try:
                     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'}
