@@ -6,13 +6,7 @@
 
 YOUTUBE_DL=$SNAP_COMMON/podcast-dl/bin/youtube-dl
 
-# Download or update yt-dlp to the latest version
-
-if [[ ! -f "$YOUTUBE_DL" ]]; then
-
-   curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2024.12.06/yt-dlp --output "$YOUTUBE_DL"
-   chmod a+rx "$YOUTUBE_DL"
-fi
+# Update yt-dlp to the latest version
 
 "$YOUTUBE_DL" --update-to stable
 

@@ -88,6 +88,10 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2025-06-20**
+* Ship yt-dlp instead of downloading it from GitHub (this will prevent some weird corrupted installs)
+* Fix CVE-2023-32681/CVE-2024-47081/USN-7568-1
+
 **2025-04-30**
 * Improve python code
 * Stop creating target directories when there is nothing to download
