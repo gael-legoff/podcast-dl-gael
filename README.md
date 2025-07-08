@@ -88,6 +88,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2025-07-08**
+* New build to resolve CVE-2025-4877/CVE-2025-4878/CVE-2025-5318/CVE-2025-5449/USN-7619-1
+
 **2025-06-27**
 * New build to resolve CVE-2025-50181/CVE-2025-50182/USN-7599-1
 
