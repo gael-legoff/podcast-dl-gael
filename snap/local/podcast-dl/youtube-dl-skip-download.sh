@@ -8,16 +8,9 @@ if [[ "$#" -ne 1 ]]; then
    exit 1
 fi
 
-# Download or update yt-dlp to the latest version
+# Update yt-dlp to the latest version
 
-if [[ ! -f "$YOUTUBE_DL" ]]; then
-
-   curl --silent --location https://github.com/yt-dlp/yt-dlp/releases/download/2023.10.07/yt-dlp --output "$YOUTUBE_DL"
-   chmod a+rx "$YOUTUBE_DL"
-else
-
-   "$YOUTUBE_DL" --update-to stable
-fi
+"$YOUTUBE_DL" --update-to stable
 
 # Get Youtube video IDs
 
