@@ -67,14 +67,11 @@ sudo rm -f /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube
 sudo rm -rf /var/snap/podcast-dl-gael/common/podcast-dl/podcasts/*
 
 # Test yt-dlp on a clean archive
-echo -e "\nAdd a YouTube list"
 
-echo "https://www.youtube.com/watch?v=G35mqJ9JtQM&list=PLV3QObPp4Pie78Ye0bVGk23aAC7WsPUhK" | sudo tee /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl.url > /dev/null
-
-# Skip all the tracks
+# Skip all the tracks of a playlist
 echo -e "\nSkip all the tracks"
 
-sudo podcast-dl-gael.youtube-dl-skip-download https://www.youtube.com/watch?v=G35mqJ9JtQM&list=PLV3QObPp4Pie78Ye0bVGk23aAC7WsPUhK
+sudo podcast-dl-gael.youtube-dl-skip-download https://www.youtube.com/watch?list=PLV3QObPp4Pie78Ye0bVGk23aAC7WsPUhK
 
 # Check the number of tracks skipped
 echo -e "\nCheck the number of tracks skipped"
@@ -86,8 +83,12 @@ echo -e "\nRemove the 1st line of the download archive"
 
 sed -i '1d' /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl.download.archive
 
-# Download all the missing files and check them
-echo -e "\nDownload all the missing files"
+echo -e "\nAdd a YouTube list"
+
+echo "https://www.youtube.com/watch?list=PLV3QObPp4Pie78Ye0bVGk23aAC7WsPUhK" | sudo tee /var/snap/podcast-dl-gael/common/podcast-dl/youtube-dl.conf.d/youtube-dl.url > /dev/null
+
+# Download all the remaining videos and check them
+echo -e "\nDownload all the remaining files"
 
 sudo podcast-dl-gael.download-now
 
