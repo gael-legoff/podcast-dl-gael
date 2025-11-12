@@ -85,7 +85,7 @@ parts:
       # Download and extract Deno
       if [ ! -z ${DENO_URL+x} ]; then
           
-          curl -L "$DENO_URL" -o deno.zip
+          wget "$DENO_URL" -O deno.zip
           unzip deno.zip
 
           chmod +x deno
@@ -99,7 +99,7 @@ parts:
       craftctl default
 
     stage-packages:
-      - curl
+      - wget
       - unzip
 
         #    stage:
