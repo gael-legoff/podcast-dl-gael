@@ -2,7 +2,7 @@
 
 A simple script to download videos/podcasts from YouTube or RSS feeds.
 
-Behind the scene it uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and Python's feedparser.
+Behind the scene it uses [yt-dlp](https://github.com/yt-dlp/yt-dlp), [deno](https://deno.com/) and Python's feedparser.
 
 
 ### Connect the home interface to download files to the home directory (optional)
@@ -87,6 +87,12 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 
 ### Revisions
+
+**2025-11-12**
+* Updated to v3.5
+* yt-dlp v2025.11.12
+* Now includes deno (https://deno.com/) for reliable YouTube downloads
+* Deno is NOT available on armhf
 
 **2025-11-01**
 * New build to resolve CVE-2025-7425/USN-7852-1

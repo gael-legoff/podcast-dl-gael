@@ -5,10 +5,15 @@
 # MOVED TO YT-DLP FOLLOWING ISSUE #31530 - https://github.com/ytdl-org/youtube-dl/issues/31530
 
 YOUTUBE_DL=$SNAP_COMMON/podcast-dl/bin/youtube-dl
+DENO=$SNAP_COMMON/podcast-dl/bin/deno
 
 # Update yt-dlp to the latest version
 
 "$YOUTUBE_DL" --update-to stable
+
+# Update deno to the latest version
+
+"$DENO" upgrade stable
 
 # --config-location PATH    Location of the configuration file; either the path to the config or its containing directory.
 

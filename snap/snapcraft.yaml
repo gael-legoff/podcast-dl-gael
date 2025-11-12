@@ -1,10 +1,10 @@
 name: podcast-dl-gael
-version: "v3.4-20251101"
+version: "v3.5"
 base: core24
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
   A simple script to download videos/podcasts from YouTube or RSS feeds.
-  Behind the scene it uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and Python's feedparser.
+  Behind the scene it uses [yt-dlp](https://github.com/yt-dlp/yt-dlp), deno and Python's feedparser.
   By default, new files are downloaded everyday at 06:00.
 
 grade: stable
@@ -21,6 +21,7 @@ apps:
   podcast-dl:
     command: podcast-dl/podcast-dl.sh
     environment:
+      PATH: $PATH:$SNAP_COMMON/podcast-dl/bin
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack
     daemon: simple
@@ -32,6 +33,7 @@ apps:
   download-now:
     command: podcast-dl/podcast-dl.sh
     environment:
+      PATH: $PATH:$SNAP_COMMON/podcast-dl/bin
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack
     plugs:
@@ -41,6 +43,7 @@ apps:
   rss-skip-download:
     command: podcast-dl/rss-skip-download.sh
     environment:
+      PATH: $PATH:$SNAP_COMMON/podcast-dl/bin
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
     plugs:
       - network
@@ -48,6 +51,7 @@ apps:
   youtube-dl-skip-download:
     command: podcast-dl/youtube-dl-skip-download.sh
     environment:
+      PATH: $PATH:$SNAP_COMMON/podcast-dl/bin
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
     plugs:
       - network
@@ -60,6 +64,46 @@ parts:
       - curl
       - python3-requests
       - python3-feedparser
+
+  deno:
+    plugin: nil
+    override-build: |
+
+      # Detect architecture and set download URL
+      case "$CRAFT_ARCH_BUILD_FOR" in
+        amd64)
+          DENO_URL="https://github.com/denoland/deno/releases/download/v2.5.6/deno-x86_64-unknown-linux-gnu.zip"
+          ;;
+        arm64)
+          DENO_URL="https://github.com/denoland/deno/releases/download/v2.5.6/deno-aarch64-unknown-linux-gnu.zip"
+          ;;
+        *)
+          echo "Unsupported architecture for deno: $CRAFT_ARCH_BUILD_FOR"
+          ;;
+      esac
+
+      # Download and extract Deno
+      if [ ! -z ${DENO_URL+x} ]; then
+          
+          curl -L "$DENO_URL" -o deno.zip
+          unzip deno.zip
+
+          chmod +x deno
+
+          mkdir -p $CRAFT_PART_INSTALL/podcast-dl/bin
+          mv deno $CRAFT_PART_INSTALL/podcast-dl/bin/
+      else
+          echo "ICI"
+      fi
+
+      craftctl default
+
+    stage-packages:
+      - curl
+      - unzip
+
+        #    stage:
+        #      - podcast-dl/bin/deno
 
   ffmpeg:
     plugin: nil
