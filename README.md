@@ -88,8 +88,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
-**2025-11-12**
+**2025-11-16**
 * Updated to v3.5
+* Changed install and upgrade logic
 * yt-dlp v2025.11.12
 * Now includes deno (https://deno.com/) for reliable YouTube downloads
 * Deno is NOT available on armhf

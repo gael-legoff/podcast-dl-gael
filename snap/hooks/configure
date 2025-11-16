@@ -1,7 +1,3 @@
 #!/bin/sh
 
-cp -a $SNAP/podcast-dl $SNAP_COMMON
-
-rm $SNAP_COMMON/podcast-dl/podcast-dl.sh
-rm $SNAP_COMMON/podcast-dl/youtube-dl.conf.d/youtube-dl.module
-rm $SNAP_COMMON/podcast-dl/rss-dl.conf.d/rss-dl.module
+cp $SNAP/podcast-dl/bin/deno $SNAP_COMMON/podcast-dl/bin
