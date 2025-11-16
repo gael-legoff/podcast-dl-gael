@@ -102,9 +102,6 @@ parts:
       - wget
       - unzip
 
-        #    stage:
-        #      - podcast-dl/bin/deno
-
   ffmpeg:
     plugin: nil
     stage-packages:
