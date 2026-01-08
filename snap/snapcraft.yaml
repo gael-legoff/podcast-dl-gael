@@ -1,5 +1,5 @@
 name: podcast-dl-gael
-version: "v3.5-20251213"
+version: "v3.5-20260108"
 base: core24
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
@@ -72,10 +72,10 @@ parts:
       # Detect architecture and set download URL
       case "$CRAFT_ARCH_BUILD_FOR" in
         amd64)
-          DENO_URL="https://github.com/denoland/deno/releases/download/v2.6.0/deno-x86_64-unknown-linux-gnu.zip"
+          DENO_URL="https://github.com/denoland/deno/releases/download/v2.6.4/deno-x86_64-unknown-linux-gnu.zip"
           ;;
         arm64)
-          DENO_URL="https://github.com/denoland/deno/releases/download/v2.6.0/deno-aarch64-unknown-linux-gnu.zip"
+          DENO_URL="https://github.com/denoland/deno/releases/download/v2.6.4/deno-aarch64-unknown-linux-gnu.zip"
           ;;
         *)
           echo "Unsupported architecture for deno: $CRAFT_ARCH_BUILD_FOR"
