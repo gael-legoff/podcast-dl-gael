@@ -1,5 +1,5 @@
 name: podcast-dl-gael
-version: "v3.5-20260108"
+version: "v3.5-20260109"
 base: core24
 summary: A simple script to download podcasts from YouTube or RSS feeds
 description: |
