@@ -36,7 +36,7 @@ sudo wc -l /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.down
 # Remove a guid from each feed in the RSS archive
 echo -e "\nRemove a guid from each feed"
 
-sudo sed -i '/https:\/\/audio.linuxmatters.net\/LMP64.mp3/d' /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.download.archive
+sudo sed -i '/https:\/\/traffic.libsyn.com\/latenightlinux\/LMP64.mp3/d' /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.download.archive
 sudo sed -i '/https:\/\/latenightlinux.com\/?p=3565/d' /var/snap/podcast-dl-gael/common/podcast-dl/rss-dl.conf.d/rss-dl.download.archive
 
 # Download all the missing files and check them
