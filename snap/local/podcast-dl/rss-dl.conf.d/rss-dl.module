@@ -5,10 +5,60 @@ import sys
 import time
 import feedparser
 import requests
+import mimetypes
 
 SNAP_COMMON = os.getenv('SNAP_COMMON')
 DEF_DOWNLOAD_DIR = SNAP_COMMON+"/podcast-dl/podcasts"
 ARCHIVE_FILE = SNAP_COMMON+"/podcast-dl/rss-dl.conf.d/rss-dl.download.archive"
+
+# Ensure mimetypes has common types loaded
+mimetypes.init()
+
+# Fallback map for MIME types that mimetypes might not know
+# (or where you want to prefer a specific extension)
+MIME_EXT_FALLBACK = {
+    'audio/mpeg':       '.mp3',
+    'audio/mp3':        '.mp3',
+    'audio/mp4':        '.m4a',
+    'audio/x-m4a':      '.m4a',
+    'audio/ogg':        '.ogg',
+    'audio/x-ogg':      '.ogg',
+    'audio/aac':        '.aac',
+    'audio/x-aac':      '.aac',
+    'audio/flac':       '.flac',
+    'audio/x-flac':     '.flac',
+    'audio/wav':        '.wav',
+    'audio/x-wav':      '.wav',
+    'audio/webm':       '.weba',
+    'video/mp4':        '.mp4',
+    'video/x-m4v':      '.m4v',
+    'video/quicktime':  '.mov',
+    'video/webm':       '.webm',
+    'video/x-matroska': '.mkv',
+}
+
+def get_extension(mime_type: str | None) -> str:
+    """Return a file extension (with leading dot) for the given MIME type.
+
+    Returns an empty string if the MIME type is None or unresolvable,
+    so it's always safe to concatenate: filename + ext.
+    """
+    if mime_type is None:
+        return ''
+
+    # Strip parameters like "; charset=utf-8"
+    mime_type = mime_type.split(';', 1)[0].strip().lower()
+
+    # 1) Try the manual fallback first — gives you consistent, preferred extensions
+    if mime_type in MIME_EXT_FALLBACK:
+        return MIME_EXT_FALLBACK[mime_type]
+
+    # 2) Fall back to the mimetypes module
+    ext = mimetypes.guess_extension(mime_type, strict=False)
+    if ext:
+        return ext
+
+    return ''
 
 # Check arguments
 if len(sys.argv) == 3:
@@ -65,16 +115,24 @@ for entry in rssFeed.entries:
         
         # Find the enclosure's URL
         url = None
+        mime_type = None
+
         for link in entry.links:
             if link.rel == 'enclosure':
                 url = link.href
+                mime_type = getattr(link, 'type', None)
         
         if url is not None:
-            print('Mode: '+mode)
-            print('GUID: '+guid)
-            print('pubDate: '+pubDate)
-            print('title: '+title)
-            print('URL: '+url)
+            # Resolve the extension once for this enclosure
+            ext = get_extension(mime_type)
+
+            print('Mode: ' + mode)
+            print('GUID: ' + guid)
+            print('pubDate: ' + pubDate)
+            print('title: ' + title)
+            print('URL: ' + url)
+            print('MIME: ' + str(mime_type))
+            print('Extension: ' + ext)
             print()
             
             if mode == "DOWNLOAD":
@@ -91,7 +149,10 @@ for entry in rssFeed.entries:
                     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'}
                     r = requests.get(url, timeout=30, stream=True, headers=headers)
                     
-                    with open(DOWNLOAD_DIR+'/'+pubDate+'-'+title, 'wb') as fd:
+                    filename = pubDate + '-' + title + ext
+                    filepath = os.path.join(DOWNLOAD_DIR, filename)
+
+                    with open(filepath, 'wb') as fd:
                         for chunk in r.iter_content(chunk_size=10*1024*1024):
                             fd.write(chunk)
                     
