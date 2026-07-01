@@ -88,6 +88,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2026-07-01**
+* New build to resolve CVE-2026-6653/USN-8456-1
+
 **2026-06-28**
 * Adding extensions to filenames for the RSS feeds
 * Deno has been updated to v2.9.0
