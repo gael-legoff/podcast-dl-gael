@@ -88,6 +88,9 @@ sudo podcast-dl-gael.rss-skip-download https://latenightlinux.com/feeds/
 
 ### Revisions
 
+**2026-10-17**
+* New build to resolve USN-8913-1/USN-8926-1/USN-8932-1
+
 **2026-10-10**
 * New build to resolve USN-8891-1/USN-8910-1
 
